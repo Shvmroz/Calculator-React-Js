@@ -1,0 +1,112 @@
+.history {
+  padding: 5px; 
+  margin-bottom: 5px;
+  border-radius: 8px;
+  height: 80px;
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+p {
+  margin: 0px;
+  font-size: small;
+  color: rgba(111, 111, 111, 0.732);
+  font-style: italic;
+}
+.calculator {
+  max-width: 250px;
+  margin: 50px auto;
+  padding: 10px;
+  border: 1px solid #949494;
+  border-radius: 8px;
+  background-color: rgb(255, 255, 255); /* Body Background Color*/
+  /* transition: background-color 0.3s ease; */
+}
+
+.input {
+  border: 0;
+  margin: 10px 5px;
+  padding: 5px;
+  font-size: 30px;
+  width: 100%;
+  border-radius: 8px;
+  background-color: rgb(255, 255, 255);
+  
+}
+:focus-visible {
+  outline: none;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  padding: 10px;
+  margin: 5px;
+  font-size: 16px;
+  width: 50px;
+  border-radius: 6px;
+  border: 0;
+  cursor: pointer;
+  background-color: rgb(255, 233, 207);
+}
+button:hover{
+  background-color: #f4d2b5;
+}
+
+.backspace {
+  color: rgb(165, 34, 34);
+}
+
+/* =============DARK Mode============= */
+
+.dark-mode {
+  background-color: #333; /* Dark background color */
+  color: #fff; /* Text color */
+}
+
+.dark-mode .history{
+  background-color:#333;
+
+}
+.dark-mode .history p{
+  color: rgb(213, 201, 179);
+}
+
+.dark-mode button {
+  background-color: #555;
+  color: white;
+}
+
+.dark-mode button:hover {
+  background-color: #777;
+}
+
+.dark-mode .input {
+  background-color:#333;
+  color: white;
+}
+
+/* ================ History scroll bar css ==================*/
+
+::-webkit-scrollbar { 
+  /* width */
+  width: 6px;
+}
+::-webkit-scrollbar-track { 
+  /* Track */
+  background: #e3e3e3; 
+}
+::-webkit-scrollbar-thumb {
+  /* Handle */
+  background: orange; 
+}
+::-webkit-scrollbar-thumb:hover {
+  /* Handle on hover */
+  background: #8e8d8d; 
+}
