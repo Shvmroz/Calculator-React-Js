@@ -16,6 +16,12 @@ const Calculator = () => {
     };
 
     const handleButtonClick = (value) => {
+        // Check if the last input was an operator
+        const lastInputWasOperator = /[+\-*/]$/.test(input);
+        if (lastInputWasOperator && /[+\-*/]/.test(value)) {
+            // If the last input was an operator and the new input is also an operator, do nothing
+            return;
+        }
         if (result && !isNaN(value)) {
             setInput(result + value);
             setResult('');
@@ -33,27 +39,14 @@ const Calculator = () => {
             setInput(input + value);
         }
     };
-
-    // const handleCalculate = () => {
-    //     try {
-    //         const expression = input.replace(/[^-()\d/*+.]/g, '');
-    //         const newResult = math.evaluate(expression);
-    //         const historyItem = `${input} = ${newResult}`;
-    //         setResult(newResult.toString());
-    //         setHistory([...history, historyItem]);
-    //     } catch (error) {
-    //         setResult('Error');
-    //     }
-    // };
+    
     const handleCalculate = () => {
         try {
             const expression = input.replace(/[^-()\d/*+.]/g, '');
-            // Check for consecutive operators
-            if (/[*/+-]{2,}/.test(expression)) {
-                setResult('Error: Invalid expression');
-                return;
-            }
-            const newResult = math.evaluate(expression);
+            let newResult = math.evaluate(expression);
+            // Round the result to two decimal places
+            newResult = Math.round(newResult * 100) / 100;
+    
             const historyItem = `${input} = ${newResult}`;
             setResult(newResult.toString());
             setHistory([...history, historyItem]);
@@ -62,6 +55,7 @@ const Calculator = () => {
         }
     };
     
+
     const handleClear = () => {
         setInput('');
         setResult('');
@@ -96,56 +90,62 @@ const Calculator = () => {
     return (
         <div className={`calculator ${darkMode ? 'dark-mode' : ''}`}>
             <div className='container-fluid'>
-                <div className='row'>
-                    <div className='col-6'>
-                        <span ><HistoryIcon fontSize="small" sx={{ color: orange[500] }} /></span>
-                    </div>
-                    <div className="col-6">
-                        <span onClick={toggleDarkMode}>
-                            {darkMode ? <Brightness7 fontSize="small"/> : <Brightness4 fontSize="small" sx={{ color: orange[500] }} />}
-                        </span>
-                    </div>
+                <div className='header'>
+                    <span>
+                        <HistoryIcon fontSize="small" sx={{ color: orange[500] }} />
+                    </span>
+                    {/* Dark Mode Toogle ============== */}
+                    <span onClick={toggleDarkMode}>
+                        {darkMode ?
+                            <Brightness7 fontSize="small" />
+                            :
+                            <Brightness4 fontSize="small" sx={{ color: orange[500] }} />}
+                    </span>
                 </div>
-             
+                {/* History div ============== */}
                 <div className="history">
                     {history.map((item, index) => (
                         <p key={index}>{item}</p>
                     ))}
                 </div>
-                <div className="row">
+                {/* Input ============== */}
+                <div className="container-fluid">
                     <input className="input" type="text" value={result || input} readOnly />
                 </div>
                 <hr />
+                {/* Table Buttons============== */}
                 <div className="buttons">
-                    <div className="row">
-                        <button onClick={handleClear} style={{ backgroundColor: 'orange' }}>C</button>
-                        <button onClick={handleBackspace} className="backspace">DEL</button>
-                        <button onClick={() => handleButtonClick('%')}>%</button>
-                        <button onClick={() => handleButtonClick('/')}>÷ /</button>
-                    </div>
-                    <div className="row">
-                        <button onClick={() => handleButtonClick('7')}>7</button>
-                        <button onClick={() => handleButtonClick('8')}>8</button>
-                        <button onClick={() => handleButtonClick('9')}>9</button>
-                        <button onClick={() => handleButtonClick('*')}>x</button>
-                    </div>
-                    <div className="row">
-                        <button onClick={() => handleButtonClick('4')}>4</button>
-                        <button onClick={() => handleButtonClick('5')}>5</button>
-                        <button onClick={() => handleButtonClick('6')}>6</button>
-                        <button onClick={() => handleButtonClick('-')}>-</button>
-                    </div>
-                    <div className="row">
-                        <button onClick={() => handleButtonClick('1')}>1</button>
-                        <button onClick={() => handleButtonClick('2')}>2</button>
-                        <button onClick={() => handleButtonClick('3')}>3</button>
-                        <button onClick={() => handleButtonClick('+')}>+</button>
-                    </div>
-                    <div className="row">
-                        <button onClick={() => handleButtonClick('0')}>0</button>
-                        <button onClick={() => handleButtonClick('.')}>.</button>
-                        <button style={{ width: '113px', backgroundColor: 'orange' }} onClick={handleCalculate}>=</button>
-                    </div>
+                    <table>
+                        <tr>
+                            <td><button onClick={handleClear} style={{ backgroundColor: 'orange' }}>C</button></td>
+                            <td><button onClick={handleBackspace} className="backspace">DEL</button></td>
+                            <td><button onClick={() => handleButtonClick('%')}>%</button></td>
+                            <td><button onClick={() => handleButtonClick('/')}>÷ /</button></td>
+                        </tr>
+                        <tr>
+                            <td><button onClick={() => handleButtonClick('7')}>7</button></td>
+                            <td><button onClick={() => handleButtonClick('8')}>8</button></td>
+                            <td><button onClick={() => handleButtonClick('9')}>9</button></td>
+                            <td><button onClick={() => handleButtonClick('*')}>x</button></td>
+                        </tr>
+                        <tr>
+                            <td><button onClick={() => handleButtonClick('4')}>4</button></td>
+                            <td><button onClick={() => handleButtonClick('5')}>5</button></td>
+                            <td><button onClick={() => handleButtonClick('6')}>6</button></td>
+                            <td><button onClick={() => handleButtonClick('-')}>-</button></td>
+                        </tr>
+                        <tr>
+                            <td><button onClick={() => handleButtonClick('1')}>1</button></td>
+                            <td><button onClick={() => handleButtonClick('2')}>2</button></td>
+                            <td><button onClick={() => handleButtonClick('3')}>3</button></td>
+                            <td><button onClick={() => handleButtonClick('+')}>+</button></td>
+                        </tr>
+                        <tr>
+                            <td><button onClick={() => handleButtonClick('0')}>0</button></td>
+                            <td><button onClick={() => handleButtonClick('.')}>.</button></td>
+                            <td colSpan="2"><button style={{ backgroundColor: 'orange', width: '112px' }} onClick={handleCalculate}>=</button></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
