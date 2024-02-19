@@ -9,8 +9,8 @@ const Calculator = () => {
     const [input, setInput] = useState('');
     const [result, setResult] = useState('');
     const [history, setHistory] = useState([]);
-    const [darkMode, setDarkMode] = useState(false);
 
+    const [darkMode, setDarkMode] = useState(false);
     const toggleDarkMode = () => {
         setDarkMode(!darkMode);
     };
@@ -34,9 +34,25 @@ const Calculator = () => {
         }
     };
 
+    // const handleCalculate = () => {
+    //     try {
+    //         const expression = input.replace(/[^-()\d/*+.]/g, '');
+    //         const newResult = math.evaluate(expression);
+    //         const historyItem = `${input} = ${newResult}`;
+    //         setResult(newResult.toString());
+    //         setHistory([...history, historyItem]);
+    //     } catch (error) {
+    //         setResult('Error');
+    //     }
+    // };
     const handleCalculate = () => {
         try {
             const expression = input.replace(/[^-()\d/*+.]/g, '');
+            // Check for consecutive operators
+            if (/[*/+-]{2,}/.test(expression)) {
+                setResult('Error: Invalid expression');
+                return;
+            }
             const newResult = math.evaluate(expression);
             const historyItem = `${input} = ${newResult}`;
             setResult(newResult.toString());
@@ -45,7 +61,7 @@ const Calculator = () => {
             setResult('Error');
         }
     };
-
+    
     const handleClear = () => {
         setInput('');
         setResult('');
@@ -58,7 +74,6 @@ const Calculator = () => {
 
     const handleKeyboardInput = (event) => {
         const keyValue = event.key;
-
         if (/[0-9.+\-*/%]/.test(keyValue)) {
             handleButtonClick(keyValue);
         } else if (keyValue === 'Enter' || keyValue === '=') {
@@ -69,7 +84,6 @@ const Calculator = () => {
             handleClear();
         }
     };
-
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyboardInput);
@@ -84,7 +98,7 @@ const Calculator = () => {
             <div className='container-fluid'>
                 <div className='row'>
                     <div className='col-6'>
-                        <span><HistoryIcon fontSize="small" sx={{ color: orange[500] }} /></span>
+                        <span ><HistoryIcon fontSize="small" sx={{ color: orange[500] }} /></span>
                     </div>
                     <div className="col-6">
                         <span onClick={toggleDarkMode}>
