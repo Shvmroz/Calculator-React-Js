@@ -1,4 +1,6 @@
-
+.o-clr{
+  color: rgb(209, 125, 0);
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -8,8 +10,8 @@
   margin-bottom: 5px;
   border-radius: 8px;
   height: 80px;
-  overflow-y: auto;
   /* Enable vertical scrolling */
+  overflow-y: auto;
 }
 
 td {
@@ -39,6 +41,7 @@ p {
   font-size: 25px;
   max-width: 91%;
   border-radius: 8px;
+  transition: background-color 0.5s ease;
 }
 
 :focus-visible {
@@ -60,20 +63,19 @@ button {
 button:hover {
   background-color: #f1ddc9;
 }
-
-.backspace {
-  color: rgb(229, 92, 62);
-}
 .backspace:hover {
-  background-color: rgb(255, 207, 197);
+  background-color: rgb(139, 35, 34);
+  color: white;
 }
 /* =============DARK Mode============= */
+.dark-mode .o-clr{
 
+  color: rgb(252, 151, 0);
+}
 .dark-mode {
   background-color: #333; /* Dark background color */
   color: #fff;  /* Text color */
 }
-
 .dark-mode .input {
   background-color: #333;
   color: white;
@@ -81,21 +83,16 @@ button:hover {
 .dark-mode .history p {
   color: rgb(213, 201, 179);
 }
-
 .dark-mode button {
   background-color: #555;
   color: white;
 }
-
 .dark-mode button:hover {
   background-color: #777;
 }
-
-.dark-mode .backspace {
-  color: rgb(249, 120, 91);
-}
 .dark-mode .backspace:hover {
-  background-color:  #777;
+  background-color: rgb(139, 35, 34);
+  color: white;
 }
 
 /* ================ History scroll bar css ==================*/
