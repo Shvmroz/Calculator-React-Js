@@ -32,7 +32,7 @@ const Calculator = () => {
             setInput(input + value);
         }
     };
- 
+
     // handeling function for calculating =============================
     const handleCalculate = () => {
         try {
@@ -47,6 +47,47 @@ const Calculator = () => {
             setResult('Error');
         }
     };
+    // const handleCalculate = () => {
+    //     try {
+    //       const newResult = evaluateExpression(input);
+    //       const roundedResult = Math.round(newResult * 100) / 100;
+    //       const historyItem = `${input} = ${roundedResult}`;
+    //       setResult(roundedResult.toString());
+    //       setHistory([...history, historyItem]);
+    //     } catch (error) {
+    //       setResult('Error');
+    //     }
+    //   };
+    //   const evaluateExpression = (expression) => {
+    //     const tokens = expression.match(/\d+\.?\d*|\+|\-|\*|\//g) || [];
+    //     let result = parseFloat(tokens[0]);
+    //     for (let i = 1; i < tokens.length; i += 2) {
+    //       const operator = tokens[i];
+    //       const operand = parseFloat(tokens[i + 1]);
+    //       if (isNaN(operand)) {
+    //         throw new Error('Invalid expression');
+    //       }
+
+    //       switch (operator) {
+    //         case '+':
+    //           result += operand;
+    //           break;
+    //         case '-':
+    //           result -= operand;
+    //           break;
+    //         case '*':
+    //           result *= operand;
+    //           break;
+    //         case '/':
+    //           result /= operand;
+    //           break;
+    //       }
+    //     }
+
+    //     return result;
+    //   };            
+
+
     // clear the history ================================================
     const handleClear = () => {
         setInput('');
@@ -102,37 +143,37 @@ const Calculator = () => {
                 <div className="container-fluid">
                     <input className="input" type="text" value={result || input} readOnly />
                 </div>
-                <hr />
+         
                 {/* Table Buttons============== */}
                 <div className="buttons">
                     <table>
                         <tr>
-                            <td colSpan='2'><button className='o-clr' style={{width: '112px'}} onClick={handleClear}>C</button></td>
-                            <td><button className="backspace o-clr" onClick={handleBackspace} >DEL</button></td>
-                            <td><button className='o-clr' onClick={() => handleButtonClick('/')}>÷ /</button></td>
+                            <td colSpan='2'><button className='clear expression-clr' onClick={handleClear}>C</button></td>
+                            <td><button className="backspace expression-clr" onClick={handleBackspace} >DEL</button></td>
+                            <td><button className='expression-clr' onClick={() => handleButtonClick('/')}>÷ /</button></td>
                         </tr>
                         <tr>
                             <td><button onClick={() => handleButtonClick('7')}>7</button></td>
                             <td><button onClick={() => handleButtonClick('8')}>8</button></td>
                             <td><button onClick={() => handleButtonClick('9')}>9</button></td>
-                            <td><button className='o-clr' onClick={() => handleButtonClick('*')}>x</button></td>
+                            <td><button className='expression-clr' onClick={() => handleButtonClick('*')}>x</button></td>
                         </tr>
                         <tr>
                             <td><button onClick={() => handleButtonClick('4')}>4</button></td>
                             <td><button onClick={() => handleButtonClick('5')}>5</button></td>
                             <td><button onClick={() => handleButtonClick('6')}>6</button></td>
-                            <td><button className='o-clr' onClick={() => handleButtonClick('-')}>-</button></td>
+                            <td><button className='expression-clr' onClick={() => handleButtonClick('-')}>-</button></td>
                         </tr>
                         <tr>
                             <td><button onClick={() => handleButtonClick('1')}>1</button></td>
                             <td><button onClick={() => handleButtonClick('2')}>2</button></td>
                             <td><button onClick={() => handleButtonClick('3')}>3</button></td>
-                            <td><button className='o-clr' onClick={() => handleButtonClick('+')}>+</button></td>
+                            <td><button className='expression-clr' onClick={() => handleButtonClick('+')}>+</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2"><button style={{width: '112px' }} onClick={() => handleButtonClick('0')}>0</button></td>
+                            <td colSpan="2"><button className='zero' onClick={() => handleButtonClick('0')}>0</button></td>
                             <td><button onClick={() => handleButtonClick('.')}>.</button></td>
-                            <td><button style={{backgroundColor: 'orange'}} onClick={handleCalculate}>=</button></td>
+                            <td><button style={{ backgroundColor: 'orange', color:'black' }} onClick={handleCalculate}>=</button></td>
                         </tr>
                     </table>
                 </div>
