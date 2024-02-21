@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { create, all } from 'mathjs';
 import HistoryIcon from '@mui/icons-material/History';
 import { orange } from '@mui/material/colors';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 
-const math = create(all);
 const Calculator = () => {
     const [input, setInput] = useState('');
     const [result, setResult] = useState('');
@@ -19,7 +17,8 @@ const Calculator = () => {
         // Check if the last input was an operator
         const lastInputWasOperator = /[+\-*/]$/.test(input);
         if (lastInputWasOperator && /[+\-*/]/.test(value)) {
-            // If the last input was an operator and the new input is also an operator, Return nothing
+            // Replace the last operator with the new one
+            setInput(input.slice(0, -1) + value);
             return;
         }
         if (result && !isNaN(value)) {
@@ -33,59 +32,49 @@ const Calculator = () => {
         }
     };
 
-    // handeling function for calculating =============================
+    // handeling function for calculati0n =============================
+
     const handleCalculate = () => {
         try {
-            const expression = input.replace(/[^-()\d/*+.]/g, '');
-            let newResult = math.evaluate(expression);
-            // Round the result to two decimal places after the decimal point
-            newResult = Math.round(newResult * 100) / 100;
-            const historyItem = `${input} = ${newResult}`;
-            setResult(newResult.toString());
+            const newResult = evaluateExpression(input);
+            const roundedResult = Math.round(newResult * 100) / 100;
+            const historyItem = `${input} = ${roundedResult}`;
+            setResult(roundedResult.toString());
             setHistory([...history, historyItem]);
         } catch (error) {
             setResult('Error');
         }
     };
-    // const handleCalculate = () => {
-    //     try {
-    //       const newResult = evaluateExpression(input);
-    //       const roundedResult = Math.round(newResult * 100) / 100;
-    //       const historyItem = `${input} = ${roundedResult}`;
-    //       setResult(roundedResult.toString());
-    //       setHistory([...history, historyItem]);
-    //     } catch (error) {
-    //       setResult('Error');
-    //     }
-    //   };
-    //   const evaluateExpression = (expression) => {
-    //     const tokens = expression.match(/\d+\.?\d*|\+|\-|\*|\//g) || [];
-    //     let result = parseFloat(tokens[0]);
-    //     for (let i = 1; i < tokens.length; i += 2) {
-    //       const operator = tokens[i];
-    //       const operand = parseFloat(tokens[i + 1]);
-    //       if (isNaN(operand)) {
-    //         throw new Error('Invalid expression');
-    //       }
+    // handling custom function which replace "eval" ===========================================
+    const evaluateExpression = (expression) => {
+        const tokens = expression.match(/\d+\.?\d*|[+\-*/]/g) || [];
+        let result = parseFloat(tokens[0]);
+        for (let i = 1; i < tokens.length; i += 2) {
+            const operator = tokens[i];
+            const operand = parseFloat(tokens[i + 1]);
+            if (isNaN(operand)) {
+                throw new Error('Invalid expression');
+            }
+            switch (operator) {
+                case '+':
+                    result += operand;
+                    break;
+                case '-':
+                    result -= operand;
+                    break;
+                case '*':
+                    result *= operand;
+                    break;
+                case '/':
+                    result /= operand;
+                    break;
+                default:
+                    throw new Error('Invalid operator');
+            }
+        }
+        return result;
+    };
 
-    //       switch (operator) {
-    //         case '+':
-    //           result += operand;
-    //           break;
-    //         case '-':
-    //           result -= operand;
-    //           break;
-    //         case '*':
-    //           result *= operand;
-    //           break;
-    //         case '/':
-    //           result /= operand;
-    //           break;
-    //       }
-    //     }
-
-    //     return result;
-    //   };            
 
 
     // clear the history ================================================
@@ -143,7 +132,7 @@ const Calculator = () => {
                 <div className="container-fluid">
                     <input className="input" type="text" value={result || input} readOnly />
                 </div>
-         
+
                 {/* Table Buttons============== */}
                 <div className="buttons">
                     <table>
@@ -173,7 +162,7 @@ const Calculator = () => {
                         <tr>
                             <td colSpan="2"><button className='zero' onClick={() => handleButtonClick('0')}>0</button></td>
                             <td><button onClick={() => handleButtonClick('.')}>.</button></td>
-                            <td><button style={{ backgroundColor: 'orange', color:'black' }} onClick={handleCalculate}>=</button></td>
+                            <td><button style={{ backgroundColor: 'orange', color: 'black' }} onClick={handleCalculate}>=</button></td>
                         </tr>
                     </table>
                 </div>

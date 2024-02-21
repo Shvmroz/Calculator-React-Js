@@ -40,7 +40,7 @@ p {
   padding: 11px;
   font-size: 27px;
   max-width: 91%;
-  color: rgb(189, 215, 251);
+  color: rgb(202, 221, 248);
   transition: background-color 0.5s ease;
 }
 :focus-visible {
