@@ -1,6 +1,7 @@
 td {
   padding: 0%;
 }
+
 .expression-clr {
   color: rgb(225, 139, 1);
 }
@@ -16,6 +17,7 @@ td {
   height: 140px;
   /* Enable vertical scrolling */
   overflow-y: auto;
+
 }
 
 p {
@@ -24,33 +26,35 @@ p {
   font-size: small;
   color: rgb(222, 192, 136);
   font-style: italic;
+
 }
-.calculator , .input{
-  background-color: #295b8d;
+
+.value-result p {
+  font-size: 27px;
+  font-style: normal;
+  color: white;
+  margin: 0px 10px 0px 10px;
+  height: 42px;
+  overflow: hidden;
+  display: flex;
+  justify-content: right;
 }
+
 .calculator {
+  background-color: #295b8d;
   max-width: 250px;
   margin: 50px auto;
   border: 1px solid #cacaca;
   border-radius: 19px;
   transition: background-color 0.5s ease;
 }
-.input {
-  border: 0;
-  padding: 11px;
-  font-size: 27px;
-  max-width: 91%;
-  color: rgb(202, 221, 248);
-  transition: background-color 0.5s ease;
-}
-:focus-visible {
-  outline: none;
-}
+
 /* Buttons ================ */
 .buttons {
   padding: 9px;
   border-radius: 18px;
-  background-color:#ffffff;
+  background-color: #ffffff;
+
 }
 
 button {
@@ -61,14 +65,16 @@ button {
   border-radius: 12px;
   border: 0;
   cursor: pointer;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(229, 243, 254);
 }
 
-.clear, .zero {
- width: 107px;
- text-align: left;
- padding-left: 19px;
+.clear,
+.zero {
+  width: 107px;
+  text-align: left;
+  padding-left: 19px;
 }
+
 button:hover {
   background-color: orange;
   font-weight: bold;
@@ -84,7 +90,7 @@ button:hover {
 .dark-mode .buttons {
   background: rgb(255, 63, 0);
   background: linear-gradient(315deg, rgba(255, 63, 0, 1) 37%,
-  rgba(212, 122, 2, 1) 75%, rgba(255, 156, 48, 1) 100%);
+      rgba(212, 122, 2, 1) 75%, rgba(255, 156, 48, 1) 100%);
 }
 
 .dark-mode .o-clr {
@@ -98,10 +104,6 @@ button:hover {
   /* Text color */
 }
 
-.dark-mode .input {
-  background-color: #000000;
-  color: white;
-}
 
 .dark-mode .history p {
   color: rgb(213, 201, 179);
@@ -126,16 +128,18 @@ button:hover {
 ::-webkit-scrollbar {
   /* width */
   width: 10px;
-  border-radius: 6px;
 }
+
 ::-webkit-scrollbar-track {
   /* Track */
   background: #e3e3e3;
 }
+
 ::-webkit-scrollbar-thumb {
   /* Handle */
   background: orange;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   /* Handle on hover */
   background: #777;

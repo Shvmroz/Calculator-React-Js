@@ -32,49 +32,48 @@ const Calculator = () => {
         }
     };
 
-    // handeling function for calculati0n =============================
+    // handeling function for calculation replace eval =============================
 
     const handleCalculate = () => {
         try {
-            const newResult = evaluateExpression(input);
+            const newResult = calFunction(input);
             const roundedResult = Math.round(newResult * 100) / 100;
             const historyItem = `${input} = ${roundedResult}`;
             setResult(roundedResult.toString());
-            setHistory([...history, historyItem]);
+            setHistory(history.concat(historyItem));
         } catch (error) {
             setResult('Error');
         }
     };
     // handling custom function which replace "eval" ===========================================
-    const evaluateExpression = (expression) => {
-        const tokens = expression.match(/\d+\.?\d*|[+\-*/]/g) || [];
-        let result = parseFloat(tokens[0]);
-        for (let i = 1; i < tokens.length; i += 2) {
-            const operator = tokens[i];
-            const operand = parseFloat(tokens[i + 1]);
-            if (isNaN(operand)) {
-                throw new Error('Invalid expression');
-            }
-            switch (operator) {
-                case '+':
-                    result += operand;
-                    break;
-                case '-':
-                    result -= operand;
-                    break;
-                case '*':
-                    result *= operand;
-                    break;
-                case '/':
-                    result /= operand;
-                    break;
-                default:
-                    throw new Error('Invalid operator');
-            }
+    const calFunction = (expression) => {
+    const tokens = expression.match(/-?\d+\.?\d*|[+\-*/]/g) || [];
+    let result = parseFloat(tokens[0]);
+    for (let i = 1; i < tokens.length; i += 2) {
+        const operator = tokens[i];
+        const operand = parseFloat(tokens[i + 1]);
+        if (isNaN(operand)) {
+            setResult('Invalid expression');
         }
-        return result;
-    };
-
+        switch (operator) {
+            case '+':
+                result += operand;
+                break;
+            case '-':
+                result -= operand;
+                break;
+            case '*':
+                result *= operand;
+                break;
+            case '/':
+                result /= operand;
+                break;
+            default:
+                setResult('Invalid operator');
+        }
+    }
+    return result;
+};
 
 
     // clear the history ================================================
@@ -129,8 +128,8 @@ const Calculator = () => {
                     ))}
                 </div>
                 {/* Input ============== */}
-                <div className="container-fluid">
-                    <input className="input" type="text" value={result || input} readOnly />
+                <div className="value-result">
+                    <p>{result || input}</p>
                 </div>
 
                 {/* Table Buttons============== */}
@@ -172,4 +171,3 @@ const Calculator = () => {
 };
 
 export default Calculator;
-
