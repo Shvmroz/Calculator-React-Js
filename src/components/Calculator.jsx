@@ -31,9 +31,7 @@ const Calculator = () => {
             setInput(input + value);
         }
     };
-
     // handeling function for calculation replace eval =============================
-
     const handleCalculate = () => {
         try {
             const newResult = calFunction(input);
@@ -45,7 +43,7 @@ const Calculator = () => {
             setResult('Error');
         }
     };
-    // handling custom function which replace "eval" ===========================================
+    // handling custom function which replace "eval" =============================
     const calFunction = (expression) => {
     const tokens = expression.match(/-?\d+\.?\d*|[+\-*/]/g) || [];
     let result = parseFloat(tokens[0]);
@@ -74,8 +72,6 @@ const Calculator = () => {
     }
     return result;
 };
-
-
     // clear the history ================================================
     const handleClear = () => {
         setInput('');
