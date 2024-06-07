@@ -21,6 +21,14 @@ const Calculator = () => {
             setInput(input.slice(0, -1) + value);
             return;
         }
+
+        // Check if the last number segment already contains a dot
+        const parts = input.split(/[+\-*/]/);
+        const lastPart = parts[parts.length - 1];
+        if (value === '.' && lastPart.includes('.')) {
+            return;
+        }
+
         if (result && !isNaN(value)) {
             setInput(result + value);
             setResult('');
@@ -31,47 +39,51 @@ const Calculator = () => {
             setInput(input + value);
         }
     };
-    // handeling function for calculation replace eval =============================
+    // handling function for calculation replace eval =============================
     const handleCalculate = () => {
         try {
             const newResult = calFunction(input);
             const roundedResult = Math.round(newResult * 100) / 100;
             const historyItem = `${input} = ${roundedResult}`;
-            setResult(roundedResult.toString());
-            setHistory(history.concat(historyItem));
+            
+            if (result !== roundedResult.toString()) {
+                setResult(roundedResult.toString());
+                setHistory(history.concat(historyItem));
+            }
         } catch (error) {
             setResult('Error');
         }
     };
+    
     // handling custom function which replace "eval" =============================
     const calFunction = (expression) => {
-    const tokens = expression.match(/-?\d+\.?\d*|[+\-*/]/g) || [];
-    let result = parseFloat(tokens[0]);
-    for (let i = 1; i < tokens.length; i += 2) {
-        const operator = tokens[i];
-        const operand = parseFloat(tokens[i + 1]);
-        if (isNaN(operand)) {
-            setResult('Invalid expression');
+        const tokens = expression.match(/-?\d+\.?\d*|[+\-*/]/g) || [];
+        let result = parseFloat(tokens[0]);
+        for (let i = 1; i < tokens.length; i += 2) {
+            const operator = tokens[i];
+            const operand = parseFloat(tokens[i + 1]);
+            if (isNaN(operand)) {
+                setResult('Invalid expression');
+            }
+            switch (operator) {
+                case '+':
+                    result += operand;
+                    break;
+                case '-':
+                    result -= operand;
+                    break;
+                case '*':
+                    result *= operand;
+                    break;
+                case '/':
+                    result /= operand;
+                    break;
+                default:
+                    setResult('Invalid operator');
+            }
         }
-        switch (operator) {
-            case '+':
-                result += operand;
-                break;
-            case '-':
-                result -= operand;
-                break;
-            case '*':
-                result *= operand;
-                break;
-            case '/':
-                result /= operand;
-                break;
-            default:
-                setResult('Invalid operator');
-        }
-    }
-    return result;
-};
+        return result;
+    };
     // clear the history ================================================
     const handleClear = () => {
         setInput('');
@@ -106,11 +118,11 @@ const Calculator = () => {
         <div className={`calculator ${darkMode ? 'dark-mode' : ''}`}>
             <div className='container-fluid'>
                 <div className='header'>
-                    <span>
+                    <span >
                         <HistoryIcon fontSize="small" sx={{ color: orange[500] }} />
                     </span>
                     {/* Dark Mode Toogle ============== */}
-                    <span onClick={toggleDarkMode}>
+                    <span className='toggler' onClick={toggleDarkMode}>
                         {darkMode ?
                             <Brightness7 fontSize="small" />
                             :
