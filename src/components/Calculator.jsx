@@ -14,6 +14,16 @@ const Calculator = () => {
     };
     // handle button clicks =================================================================
     const handleButtonClick = (value) => {
+        // Prevent entering an operator at the start
+        if (!input && /[+\-*/]/.test(value)) {
+            return;
+        }
+    
+        // Prevent further input if result is negative
+        if (result && parseFloat(result) < 0) {
+            return;
+        }
+    
         // Check if the last input was an operator
         const lastInputWasOperator = /[+\-*/]$/.test(input);
         if (lastInputWasOperator && /[+\-*/]/.test(value)) {
@@ -21,14 +31,14 @@ const Calculator = () => {
             setInput(input.slice(0, -1) + value);
             return;
         }
-
+    
         // Check if the last number segment already contains a dot
         const parts = input.split(/[+\-*/]/);
         const lastPart = parts[parts.length - 1];
         if (value === '.' && lastPart.includes('.')) {
             return;
         }
-
+    
         if (result && !isNaN(value)) {
             setInput(result + value);
             setResult('');
@@ -39,8 +49,13 @@ const Calculator = () => {
             setInput(input + value);
         }
     };
+    
     // handling function for calculation replace eval =============================
     const handleCalculate = () => {
+        if (!input.trim()) {
+            setResult('');
+            return;
+        }
         try {
             const newResult = calFunction(input);
             const roundedResult = Math.round(newResult * 100) / 100;
@@ -57,13 +72,14 @@ const Calculator = () => {
     
     // handling custom function which replace "eval" =============================
     const calFunction = (expression) => {
-        const tokens = expression.match(/-?\d+\.?\d*|[+\-*/]/g) || [];
+        const tokens = expression.match(/(\d+\.?\d*)|[+\-*/]/g) || [];
         let result = parseFloat(tokens[0]);
         for (let i = 1; i < tokens.length; i += 2) {
             const operator = tokens[i];
             const operand = parseFloat(tokens[i + 1]);
             if (isNaN(operand)) {
                 setResult('Invalid expression');
+                return 0;
             }
             switch (operator) {
                 case '+':
@@ -80,10 +96,12 @@ const Calculator = () => {
                     break;
                 default:
                     setResult('Invalid operator');
+                    return 0;
             }
         }
         return result;
     };
+    
     // clear the history ================================================
     const handleClear = () => {
         setInput('');
